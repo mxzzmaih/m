@@ -12,7 +12,7 @@ export async function POST() {
       html: `
         <div style="font-family: sans-serif; text-align: center;">
           <h2>🌹 Srija has said YES!</h2>
-          <p>The date is confirmed under the stars ✨</p>
+          <p>The date is confirmed ✨</p>
         </div>
       `,
     })
