@@ -6,17 +6,27 @@ import "./globals.css"
 
 export default function Home() {
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 })
+  const [hoverCount, setHoverCount] = useState(0)
 
   const moveNoButton = () => {
-    const x = Math.random() * 300 - 150
-    const y = Math.random() * 200 - 100
+    setHoverCount((prev) => prev + 1)
+    const intensity = Math.min(hoverCount * 20 + 150, 400)
+    const x = Math.random() * intensity - intensity / 2
+    const y = Math.random() * intensity - intensity / 2
+    setNoPosition({ x, y })
+  }
+
+  const handleNoClick = () => {
+    alert("Too slow 😜 You can’t say no!")
+    const x = (Math.random() - 0.5) * 600
+    const y = (Math.random() - 0.5) * 400
     setNoPosition({ x, y })
   }
 
   const handleYes = async () => {
     try {
       await fetch("/api/yes", { method: "POST" })
-      alert("Thank You 💫")
+      alert("Thank You 🙇")
     } catch (err) {
       console.error(err)
     }
@@ -41,24 +51,31 @@ export default function Home() {
   return (
     <main className="sky-container">
       <div className="stars"></div>
-      <h1 className="title">Would you like to go on a date with me? 🌌</h1>
+
+      <h1 className="title glow-text">
+        Would you like to go on a date with me? 🌌
+      </h1>
 
       <div className="buttons">
         <button onClick={handleYes} className="yes-btn">
-          Yes 
+          Yes 🫡
         </button>
 
         <motion.button
           onMouseEnter={moveNoButton}
+          onClick={handleNoClick}
           className="no-btn"
           animate={{ x: noPosition.x, y: noPosition.y }}
-          transition={{ type: "spring", stiffness: 200, damping: 12 }}
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 12,
+          }}
+          whileTap={{ scale: 0.8, rotate: 10 }}
         >
           No 😅
         </motion.button>
       </div>
-
-      
     </main>
   )
 }
